@@ -56,7 +56,9 @@ def main_menu():
                     selected_option = (selected_option - 1) % len(menu_options)
                 elif event.key == pygame.K_RETURN:
                     if menu_options[selected_option] == "Start Game":
-                        subprocess.run(["python", "game.py"])
+                        game.main()
+                        pygame.quit()
+                        sys.exit()
                     elif menu_options[selected_option] == "Winners":
                         winners_menu()
                     elif menu_options[selected_option] == "Exit":
@@ -119,5 +121,6 @@ def winners_menu():
         pygame.display.flip()
         clock.tick(30)
 
-# Uruchomienie menu głównego
-main_menu()
+if __name__=="__main__":
+     main_menu()
+

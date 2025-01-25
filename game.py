@@ -7,18 +7,14 @@ import os
 pygame.init()
 
 SW, SH = 700, 700
-
 BLOCK_SIZE = 35
+score = 0
+
 font_titles =pygame.font.Font("font.ttf", 35)
 font_digits = pygame.font.Font("font.ttf", 70)
 font_text = pygame.font.Font("font.ttf", 20)
-start_time = 10
-score = 0
 
 screen = pygame.display.set_mode((910, 700))
-pygame.display.set_caption("Snake")
-clock = pygame.time.Clock()
-start_ticks = pygame.time.get_ticks()
 
 # Wczytanie obrazu
 snake_image = pygame.image.load("images/snake.png")
@@ -73,6 +69,7 @@ end_image = pygame.transform.scale(end_image, (700, 700))
 class Snake:
      
     def __init__(self):
+        global score
         self.x, self.y = BLOCK_SIZE, BLOCK_SIZE
         self.xdir = 1 
         self.ydir = 0
@@ -88,9 +85,12 @@ class Snake:
                 self.dead = True
 
         if self.dead:
+            global score
             name = get_player_name()
-            save_score(name, score)
+            save_score(name)
+            score = 0
             import menu
+            menu.main_menu()
 
         self.body.append(self.head)
         for i in range(len(self.body) - 1):
@@ -143,9 +143,9 @@ def get_player_name():
         
         # Wyświetlanie ekranu z polem do wpisania imienia
         screen.blit(end_image, (0,0))
-        prompt_0 = font_digits.render("GAME OVER", True, (255, 0, 0))
-        prompt = font_digits.render("Enter your name:", True, (255, 255, 255))
-        input_box = font_digits.render(name, True, (255, 0, 0))
+        prompt_0 = font_digits.render("GAME OVER", True, (0, 255, 0))
+        prompt = font_digits.render("Enter your name:", True, (0, 255, 0))
+        input_box = font_digits.render(name, True, (0, 0, 255))
         screen.blit(prompt_0, (200, 200))
         screen.blit(prompt, (120, 300))
         screen.blit(input_box, (200, 400))
@@ -155,7 +155,8 @@ def get_player_name():
     
     return name
 
-def save_score(name, score):
+def save_score(name):
+    global score
     file_exists = os.path.isfile("rank.csv")
     with open("rank.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
@@ -165,16 +166,12 @@ def save_score(name, score):
 
 
 def main():
-    SW, SH = 700, 700
-
+    global score
     BLOCK_SIZE = 35
-    font_titles =pygame.font.Font("font.ttf", 35)
-    font_digits = pygame.font.Font("font.ttf", 70)
-    font_text = pygame.font.Font("font.ttf", 20)
-    start_time = 10
+    start_time = 30
 
     screen = pygame.display.set_mode((910, 700))
-    pygame.display.set_caption("Snake")
+    pygame.display.set_caption("Snake_game")
     clock = pygame.time.Clock()
     start_ticks = pygame.time.get_ticks()
         
@@ -198,7 +195,7 @@ def main():
                 sys.exit()     
             elif remaining_time <= 0:
                 name = get_player_name()
-                save_score(name, score)
+                save_score(name)
                 import menu
             elif event.type == APPLE_EVENT:
                 if gold_apple is None:
@@ -343,7 +340,7 @@ def main():
         screen.blit(end_info_text2, (705, 630))
 
         pygame.display.update() #Odświeża ekran gry, aby zmiany w grafice były widoczne.
-        clock.tick(25) #Kontroluje ilość klatek na sekundę. W tym przypadku gra będzie działać z maksymalnie 10 FPS.
+        clock.tick(25) #Kontroluje ilość klatek na sekundę FPS.
         pygame.time.delay(100)
 
 if __name__=="__main__":
