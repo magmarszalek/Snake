@@ -48,7 +48,7 @@ pip install pygame
 #### Run the Game
 Execute the game by running:
 ```bash
-python main.py
+python menu.py
 ```
 
 ---
