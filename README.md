@@ -40,7 +40,7 @@ pip install pygame
 #### Installation
 1. Clone the repository or download the `.zip`:
    ```bash
-   git clone https://github.com/your-repo/snake-game.git
+   git clone https://github.com/magmarszalek/Snake.git
    cd snake-game
    ```
 2. Place all assets (images, fonts) in the `images` and `fonts` directories.
